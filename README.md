@@ -1,2 +1,1 @@
-# AjengWidya.github.io
-Mobile Web Programming: Class Project. Developing a mobile web application with PWA features.
+# Mobile Web Programming: class project. Developing a mobile web application using PWA features.

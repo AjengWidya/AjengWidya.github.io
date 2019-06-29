@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>News Reader</title>
+    <meta name="description" content="My first PWA" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="css/materialize.min.css" />
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#00897B" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+  </head>
+  <body>
+    <!-- Navigasi -->
+    <nav class="teal lighten-1" role="navigation">
+      <div class="nav-wrapper container">
+        <a href="#" class="brand-logo" id="logo-container">News Reader</a>
+        <a href="./index.html" class="sidenav-trigger" data-target="nav-mobile">
+          <i class="material-icons">arrow_back</i>
+        </a>
+        <ul class="topnav right hide-on-med-and-down"></ul>
+        <ul class="sidenav" id="nav-mobile"></ul>
+      </div>
+    </nav>
+    <!-- Akhir Navigasi -->
+
+    <!-- Artikel -->
+    <div class="container" id="body-content"></div>
+    <!-- Artikel -->
+
+    <!-- Floating Action Button -->
+    <div class="fixed-action-btn">
+      <a class="btn-floating btn-large red" id="archive">
+        <i class="large material-icons">archive</i>
+      </a>
+    </div>
+    <!-- Floating Action Button -->
+
+    <script
+      type="text/javascript"
+      src="https://unpkg.com/snarkdown@1.0.2/dist/snarkdown.umd.js"
+    ></script>
+
+    <script src="js/materialize.min.js"></script>
+    <script src="js/idb.js"></script>
+    <script src="js/db.js"></script>
+    <script src="js/api.js"></script>
+
+    <!-- Service Worker Registration -->
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", function() {
+          navigator.serviceWorker
+            .register("ajeng56160-sw.js")
+            .then(function() {
+              console.log("Pendaftaran ServiceWorker berhasil");
+            })
+            .catch(function() {
+              console.log("Pendaftaran ServiceWorker gagal");
+            });
+        });
+      } else {
+        console.log("ServiceWorker belum didukung browser ini.");
+      }
+
+      document.addEventListener("DOMContentLoaded", function() {
+        var urlParams = new URLSearchParams(window.location.search);
+        var isArchived = urlParams.get("archived");
+        var archive = document.getElementById("archive");
+
+        // Cek jika URL mengirim nilai 'archived'
+        if(isArchived) {
+          // Jika kondisi di atas benar, maka floating action button disetting agar tidak tampil pada layar (display bernilai none)
+          archive.style.display = "none";
+          // Menampilkan berita yang pernah disimpan
+          getArchivedNewsById();
+        } else {
+          // Jika URL tidak mengirim nilai 'archived', berarti berita yang ditampilkan diambil dari server
+          var newsItem = getArticleById();
+        }
+        
+        archive.onclick = function() {
+          newsItem.then(function(article) {
+            saveOffline(article);
+          });
+        }
+      });
+    </script>
+    <!-- Service Worker Registration -->
+
+    <!-- <script src="js/jquery-2.0.0.min.js">
+      $(document).ready(function(){
+        $('.fixed-action-btn').floatingActionButton();
+      });
+    </script> -->
+  </body>
+</html>
