@@ -4,8 +4,8 @@
     "description": "News reader application",
     "start_url": "index.html",
     "display": "standalone",
-    "background_color": "#00897B",
-    "theme_color": "#00897B",
+    "background_color": "#01579b",
+    "theme_color": "#01579b",
     "icons": [
         {
             "src": "icon.png",
